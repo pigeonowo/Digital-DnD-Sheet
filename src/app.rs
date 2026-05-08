@@ -1,4 +1,3 @@
-use egui::Align2;
 use egui::Color32;
 use egui::Frame;
 use egui::Pos2;
@@ -196,7 +195,7 @@ impl DndApp {
                             max: Pos2::new(pos.x + 50.0, pos.y + 50.0),
                         };
                         shapes.push(create_hexagon(pos, theme, self.map_tiles[map_index]));
-                        labels.push((rect, format!("{x:02}{y:02}")));
+                        labels.push((rect, format!("{:02}{:02}", x + 1, y + 1)));
                         context_rects.push(ctx_rect);
 
                         map_index += 1;
@@ -223,7 +222,8 @@ impl DndApp {
                                     Color32::from_rgb(0, 0, 0)
                                 })
                                 .strong(),
-                        ),
+                        )
+                        .selectable(false),
                     );
 
                     // context
@@ -236,11 +236,14 @@ impl DndApp {
                     }
                 }
                 if let Some((st_label, tile_index)) = &self.map_open_select_type {
+                    let min_rect = ui.min_rect();
+                    let default_pos = Pos2::new(min_rect.max.x / 3.0, min_rect.max.y / 3.0);
                     let tile_ref = self.map_tiles.get_mut(*tile_index).unwrap();
                     egui::Window::new(format!("Set Tiletype {st_label}"))
                         .open(&mut self.map_open_select_type_open)
                         .collapsible(false)
-                        .anchor(Align2::CENTER_CENTER, (0.0, 0.0))
+                        // .anchor(Align2::CENTER_CENTER, (0.0, 0.0))
+                        .default_pos(default_pos)
                         .show(ui.ctx(), |ui| {
                             ui.radio_value(tile_ref, Tile::Nothing, "Nothing");
                             ui.radio_value(tile_ref, Tile::City, "City");
