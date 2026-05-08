@@ -20,7 +20,7 @@ fn main() -> eframe::Result {
         ..Default::default()
     };
     eframe::run_native(
-        "eframe template",
+        "My Digital DnD Sheet",
         native_options,
         Box::new(|cc| Ok(Box::new(dnd_sheet::DndApp::new(cc)))),
     )

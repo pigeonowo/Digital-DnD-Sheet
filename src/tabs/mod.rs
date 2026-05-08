@@ -1,11 +1,11 @@
 pub trait Tab {
-    fn ui(&mut self, ui: &mut egui::Ui);
+    fn ui(&mut self, ui: &mut egui::Ui, active: &mut bool);
     fn name(&self) -> String;
-    fn is_active(&mut self) -> bool;
-    fn get_active_mut_ref(&mut self) -> &mut bool;
 }
 
 mod stats;
 pub use stats::*;
-mod character;
-pub use character::*;
+mod class;
+pub use class::*;
+mod race;
+pub use race::*;
